@@ -21,6 +21,13 @@ then it will automatically install node_modules folder!!***
 after npm install we can then run
 npm dev or npm run dev */
 
+/*
+node js
+git init
+npm i express
+npm i -D nodemon
+*/
+
 console.log("hello express");
 
 /* making a server */
