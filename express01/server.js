@@ -8,7 +8,18 @@ node_modules/
 this means when we do git push it will NOT push node_modules folder and all files inside it
 e.g. if we put inside .gitignore file
 text.html
-then text.html won't get pushed to git when we do git push */
+then text.html won't get pushed to git when we do git push 
+
+after we git push
+in another computer, again we git clone then cd into 2024node folder
+(just after git clone since we didn't push node_modules by putting it in .gitignore file,
+the clones repository will have js files and package.json but NO node_modules,
+yet)
+then just re-install node_modules by typing in the cmd
+npm i or npm install
+then it will automatically install node_modules folder!!***
+after npm install we can then run
+npm dev or npm run dev */
 
 console.log("hello express");
 
