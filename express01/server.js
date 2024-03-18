@@ -28,11 +28,25 @@ npm i express
 npm i -D nodemon
 */
 
+/*npm i installs node_modules */
+
+// get http://localhost:3000/:userId/:postId => specific user's specific post
+// get http://localhost:3000/user => user list
+// get http://localhost:3000/user/:userId => specific user with that id
+// put http://localhost:3000/user/:userId => modify
+// del http://localhost:3000/user/:userId
+
+// post http://localhost:3000/user
+
+// searching is a post request e.g. search "furniture" is post furniture.
+// then as soon as we hit the search button, the web page sends/shows us the response of a get request.
+
 console.log("hello express");
 
 /* making a server */
 const express = require("express"); // looks for 'express' module (folder) inside the node_modules folder
 const app = express();
+const users = [];
 
 // to route /, we will send the result of this function
 app.get("/", function (req, res) {
@@ -45,22 +59,31 @@ app.get("/page1", function (req, res) {
   return res.send("This is my page one!");
 });
 
-const users = [];
-
-app.use(express.json()); // use middleware
+app.use(express.json()); // use middleware // we NEED this line for Postman to work!
 //app.use() adds a new middleware to the app.
 //express.json() is a built-in middleware function in express
+// express.json() parses incoming JSON data from HTTP requests
+// it first receives the data from the API in JSON format (e.g. from postman post request)
+// and then parses the JSON string (i.e. convert to local format) so its contents can be used and manipulated
 
 app.get("/user", function (req, res) {
-  return res.send({ users: users });
+  return res.send({ user: users });
 });
 
 app.post("/user", function (req, res) {
-  console.log(req.body);
+  // req(request), res(response), next are fixed parameters for middleware
+  //console.log(req.body);
+  //req.body is the body header in post request in postman
+  // users here is the const users = [] declared above.
   users.push({ name: req.body.name, age: req.body.age });
   return res.send({ success: true });
 }); // test this on postman or talend (chrome extension) - both are called API testers.
 // try http get on postman to see that the res.send worked
+
+// app.post("/user", function (req, res) {
+//   users.push({ name: "John", age: 20 });
+//   return res.send({ success: true });
+// });
 
 //app is express()
 // .listen() is a method of express.
@@ -68,6 +91,16 @@ app.post("/user", function (req, res) {
 app.listen(3000); // this is connecting to the port
 /* server on port number 3000
 i.e. server is running at https://localhost:3000/
+localhost is the same as this computer's ip address
+on cmd when you type ipconfig you can see that this computer's ip address is e.g.
+192.168.0.78
+then localhost:3000 is the SAME as 192.168.0.78:3000
+since the actual ip address of each laptop is different
+it's just a rule to call this ip address of local computer 'localhost'
+if you type a different ip address then :3000 e.g.
+get 192.168.0.109:3000/user on postman,
+then you are accessing 192.168.0.109 this different computer's local server.
+express.js allows us to create this SERVER
 */
 
 /* app.use().get().post().delete();
@@ -93,9 +126,24 @@ app.delete(); */
 // nodemon allows so that we don't have to npm run start each time
 // npm i -D nodemon (-D for developer version)
 
-/* 1. npm init (to install package.json)
-2. npm install express (to create a server, so that we use postman to put mongo db data to be displayed on the server)
+/*
+
+1. npm init (this creates package.json) // we need this to install the different packages. npm init means initialize node package.json
+or npm init -y to skip all the questions and go for default answers
+2. npm install express (to create a server, so that we use postman to put mongo db data to be displayed on the server) (install or i)
 3. npm i -D nodemon (i can be replaced with install) (nodemon doesn't get used in development but just in my local server)
+
+npm run is to RUN THE SCRIPT which script to run ? => set it in package.json under "scripts"
+why do we do npm run? to RUN THE SERVER (run the script ON THE SERVER), why run the server? to do BACKEND.
+
+Inside package.json:
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js", // what I added
+    "dev": "nodemon test.js" // what I added
+  },
+this is telling/noting down that when we do npm run start on terminal it will run node index.js
+and again if we do npm run dev on cmd terminal it will run nodemon test.js
 
 inside package.json inside "scripts"{} write "start": "node server.js" then when we run npm start or npm run start
 the program will run node server.js
