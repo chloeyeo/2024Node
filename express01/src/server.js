@@ -4,6 +4,7 @@ password = "Salang5252@chunsa";
 const express = require("express"); // looks for 'express' module (folder) inside the node_modules folder
 const app = express();
 const mongoose = require("mongoose");
+const User = require("./model/User.js"); // with or without .js
 const users = [];
 // encodeURIComponent to escape special characters in password
 const MONGO_URL = `mongodb+srv://chloeyeo:${encodeURIComponent(
