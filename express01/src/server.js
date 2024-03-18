@@ -57,6 +57,8 @@ const server = async function () {
         }
         const user = new User(req.body); // req.body is the json body from postman (so no need to await)
         await user.save(); // save() goes through mongo db so we must await promise. it saves the user in mongo db.
+        // await user.save() <- user is from User schema from User.js since it has to go to db and save the user schema then come back, we use await promise.
+        // pending means it's a promise
         res.send(user);
       } catch (error) {
         // 500 is server side(i.e. backend) error, e.g. if change const user to const user1 it will give 500 error since our code is the backend = server side.
