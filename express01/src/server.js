@@ -1,5 +1,6 @@
 /* making a server */
 const express = require("express");
+// const router = express.Router();
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv"); // require dotenv package
@@ -82,17 +83,25 @@ const server = async function () {
     app.put("/user/:userId", async function (req, res) {
       try {
         let { userId } = req.params;
-        let { age, email } = req.body;
+        let { age, email, username } = req.body;
 
         // Validation check
-        if (!mongoose.isValidObjectId(userId)) {
-          return res.status(400).send({ error: "no user id!" });
+        // if (!mongoose.isValidObjectId(userId)) {
+        //   return res.status(400).send({ error: "no user id!" });
+        // }
+
+        // if (!age) {
+        //   res.status(400).send({ error: "no user id!" });
+        // }
+
+        if (typeof age != "number") {
+          res.status(400).send({ error: "age not a number!" });
         }
 
         const user = await User.findByIdAndUpdate(
           userId,
           {
-            $set: { age, email },
+            $set: { age, email, username },
           },
           { new: true } // update returned user immediately on postman
         );
