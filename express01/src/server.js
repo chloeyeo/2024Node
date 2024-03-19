@@ -89,9 +89,13 @@ const server = async function () {
           return res.status(400).send({ error: "no user id!" });
         }
 
-        const user = await User.findByIdAndUpdate(userId, {
-          $set: { age, email },
-        });
+        const user = await User.findByIdAndUpdate(
+          userId,
+          {
+            $set: { age, email },
+          },
+          { new: true } // update returned user immediately on postman
+        );
         return res.send({ user });
       } catch (error) {
         return res.status(500).send({ error: error.message });
